@@ -1,41 +1,35 @@
 #include <DHT.h>
 #include <DHT_U.h>
 #include <ESP8266WiFi.h>
-String apiKey = "ZYUP9R7N15OEBYRO";  // 
+String apiKey = "ZYUP9R7N15OEBYRO";  
 const char *ssid =  "surekha"; 
 const char *pass =  "sakhison";
 const char* server = "api.thingspeak.com";
 #define DHTPIN D3
 DHT dht(DHTPIN, DHT11);
 WiFiClient client;
-
- void setup() 
-{
+ void setup(){
   Serial.begin(115200);
   delay(1000);
   dht.begin();
   Serial.println("Connecting to ");
   Serial.println(ssid);
   WiFi.begin(ssid, pass);
-  while (WiFi.status() != WL_CONNECTED) 
-  {
+  while (WiFi.status() != WL_CONNECTED) {
     delay(2000);
     Serial.print(".");
   }
 Serial.println("");
 Serial.println("WiFi connected");
 }
-void loop() 
-{
+void loop(){
  float h = dht.readHumidity();
  float t = dht.readTemperature();
- if (isnan(h) || isnan(t)) 
- {
+ if (isnan(h) || isnan(t)){
   Serial.println("Failed to read from DHT sensor!");
   return;
  }
-if (client.connect(server,80))   //   "184.106.153.149" or api.thingspeak.com
-{                      
+if (client.connect(server,80)){                      
   String postStr = apiKey;
   postStr +="&field1=";
   postStr += String(t);
